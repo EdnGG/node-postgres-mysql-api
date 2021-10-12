@@ -10,7 +10,6 @@ const service = new ProductsServices();
 
 // All especific routes must be before that all dinamic routes
 router.get('/filter', (req, res)=> {
-  // const { id } = req.params;
   return res.send('Products filtered')
 })
 
