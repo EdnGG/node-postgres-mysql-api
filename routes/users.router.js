@@ -1,19 +1,19 @@
 const express = require('express');
-// const faker = require('faker')
+
+const UserServices = require('../services/users.service')
 
 const router = express.Router();
 
+const service = new UserServices();
 
 router.get('/', (req, res)=> {
-  const { limit, offset } = req.query
-  if( limit && offset ){
-    res.json({
-      limit,
-      offset
-    })
-  } else {
-    res.send('There are not parameters')
-  }
+  // const { limit, offset } = req.query
+  const users = service.getUsers()
+  res.json({
+    data: users,
+    message: 'List of users'
+  })
+
 })
 
 router.get('/:userId', (req, res)=> {
@@ -28,44 +28,28 @@ router.get('/:userId', (req, res)=> {
 router.post('/', (req, res) => {
   const { id } = req.params
   const body = req.body;
-  // const { name, price, image } = req.body;
   return res.json({
     message: 'User created',
     data: body,
     id
-    // name,
-    // price,
-    // image
   })
 })
 
 router.patch('/:id', (req, res) => {
   const { id } = req.params
-  // console.log(req.body)
   const body  = req.body;
-  // const { name, price, image } = req.body;
   return res.json({
     message: 'User updated',
     data: body,
     id
-    // name,
-    // price,
-    // image
   })
 })
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params
-  // console.log(req.body)
-  // const body  = req.body;
-  // const { name, price, image } = req.body;
   return res.json({
     message: 'User deleted',
-    // data: body,
     id
-    // name,
-    // price,
-    // image
   })
 })
 

@@ -20,12 +20,23 @@ class ProductsServices {
 
   }
 
-  create() {
+  create(data) {
+    const newProduct = {
+      id: faker.datatype.uuid(),
+      // name: data.name,
+      ...data
+      // price: data.price,
+      // image: data.image
+    }
+    this.products.push(newProduct)
+    return newProduct
 
   }
+
   find() {
     return this.products
   }
+
   findOne(id) {
     return this.products.find(product => product.id === id)
   }
