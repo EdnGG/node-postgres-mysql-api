@@ -3,6 +3,10 @@
   gitignore.io
   Development dependencies:
   npm i nodemon eslint eslint-config-prettier eslint-plugin-prettier prettier -D
+  docker: docker-compose up -d postgres
+  docker: docker-compose up
+  docker: docker-compose down
+  docker: docker-compose ps
 */
 require('dotenv').config()
 
