@@ -3,6 +3,10 @@
   gitignore.io
   Development dependencies:
   npm i nodemon eslint eslint-config-prettier eslint-plugin-prettier prettier -D
+  docker: docker-compose up -d postgres
+  docker: docker-compose up
+  docker: docker-compose down
+  docker: docker-compose ps
 */
 require('dotenv').config()
 
@@ -20,7 +24,7 @@ const port = process.env.PORT || 3000;
 // const whitelist = ['http://localhost:8080', 'http://localhost:3000', 'http://localhost:5000']
 // const corsOptions = {
 //   origin: function (origin, callback) {
-//     // if (whitelist.includes(origin) ) {
+//     // if (whitelist.includes(origin) || !origin) {
 //     if (whitelist.indexOf(origin) !== -1) {
 //       callback(null, true)
 //     } else {
