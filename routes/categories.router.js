@@ -3,38 +3,42 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/', (req, res)=> {
-  return res.json({
-    categories: ['Hogar', 'Comida', 'Tecnologia']
-  })
+router.get('/', async (req, res, next)=> {
+  try {
+    return res.json({
+      categories: ['Hogar', 'Comida', 'Tecnologia']
+    })
+  } catch (err) {
+    next(err)
+  }
+
 })
 
-// router.get('/:categoryId/products/:productId', (req, res)=> {
-//   const { categoryId, productId } = req.params
-//   return res.json({
-//     categoryId,
-//     productId
-//   })
-// })
+router.post('/', async (req, res, next) => {
 
-router.post('/', (req, res) => {
-  const { id } = req.params
-  const body = req.body;
-  // const { name, price, image } = req.body;
-  return res.json({
-    message: 'Categoty created',
-    data: body,
-    id
-    // name,
-    // price,
-    // image
-  })
+  try {
+    const { id } = req.params
+    const body = req.body;
+    // const { name, price, image } = req.body;
+    return res.json({
+      message: 'Categoty created',
+      data: body,
+      id
+      // name,
+      // price,
+      // image
+    })
+  } catch (err) {
+    next(err)
+  }
+
 })
 
-router.patch('/:id', (req, res) => {
-  const { id } = req.params
+router.patch('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params
   // console.log(req.body)
-  const body  = req.body;
+  const body  = await req.body;
   // const { name, price, image } = req.body;
   return res.json({
     message: 'Category updated',
@@ -44,10 +48,15 @@ router.patch('/:id', (req, res) => {
     // price,
     // image
   })
+  } catch (err) {
+    next(err)
+  }
+
 })
 
-router.delete('/:id', (req, res) => {
-  const { id } = req.params
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params
   // console.log(req.body)
   // const body  = req.body;
   // const { name, price, image } = req.body;
@@ -59,6 +68,9 @@ router.delete('/:id', (req, res) => {
     // price,
     // image
   })
+  } catch (err) {
+    next(err)
+  }
 })
 
 
