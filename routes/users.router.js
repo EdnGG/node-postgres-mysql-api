@@ -1,6 +1,10 @@
 const express = require('express');
 
 const UserServices = require('../services/users.service')
+const validatorHandler = require('../middlewares/validator.handler')
+const { createUserSchema, updateUserSchema, getUserSchema } = require('../schemas/product.schema')
+
+
 
 const router = express.Router();
 
@@ -9,20 +13,21 @@ const service = new UserServices();
 router.get('/', (req, res)=> {
   // const { limit, offset } = req.query
   const users = service.getUsers()
-  res.json({
-    data: users,
-    message: 'List of users'
-  })
+  res.json(users)
 
 })
 
-router.get('/:userId', (req, res)=> {
-  const { userId } = req.params;
-  return res.json({
-    userId,
-    name: 'Lucia',
-    lastName: 'Gomez'
-  })
+router.get('/:userId',
+validatorHandler(getUserSchema, 'params'),
+async (req, res, next)=> {
+  try {
+    const { userId } = req.params;
+    const user = service.getUser(userId)
+    return res.json(user)
+  } catch (err) {
+    next(err)
+  }
+
 })
 
 router.post('/', (req, res) => {
