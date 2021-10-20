@@ -1,4 +1,6 @@
 const faker = require('faker')
+const Boom = require('@hapi/boom')
+
 
 class UserServices {
 
@@ -6,7 +8,7 @@ class UserServices {
     this.users = []
     this.generate()
   }
-  generate() {
+  async generate() {
     const limit = 100;
     for (let index = 0; index < limit; index++) {
       this.users.push({
@@ -18,20 +20,47 @@ class UserServices {
 
   }
 
-  create() {
-
+  async createUser(data) {
+    const newUser = {
+      id: faker.datatype.uuid(),
+      ...data
+    }
+    this.users.push(newUser)
+    return newUser
   }
-  getUsers() {
+  async getUsers() {
     return this.users
   }
-  findOne(id) {
-    return this.users.find(user => user.id === id)
+  async findUser(id) {
+    const user = this.users.find(user => user.id === id)
+    if (!user) {
+      throw Boom.notFound('User not found');
+    }
+    if (user.isBlock) {
+      throw Boom.conflict('User is blocked');
+    }
+    return user
   }
-  update() {
+  async updateUser(id, payload) {
+    const index = this.users.findIndex(user => user.id === id)
+    if (index === -1) {
+      throw Boom.notFound('User not found');
+    }
+    const user = this.users[index]
+    this.users[index] = {
+      ...user,
+      ...payload
+    }
+    return this.users[index]
 
   }
-  delete() {
-
+  async deleteUser(id) {
+    const index = this.users.findIndex(user => user.id === id)
+    if (index === -1) {
+      throw Boom.notFound('User not found');
+    }
+    this.users.splice(index, 1)
+    return { message: `User with ID:${id} has been deleted successfully` }
   }
 
 }

@@ -74,6 +74,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+postgres_data/
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
@@ -155,7 +156,7 @@ dist
 .webpack/
 
 # Shortcuts
-postgres_data
+
 
 # End of https://www.toptal.com/developers/gitignore/api/node,macos
 
