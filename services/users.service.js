@@ -14,7 +14,7 @@ class UserServices {
       this.users.push({
         id: faker.datatype.uuid(),
         name: faker.name.firstName(),
-        gender: faker.name.gender()
+        gender: faker.name.gender(),
       })
     }
 
@@ -31,7 +31,7 @@ class UserServices {
   async getUsers() {
     return this.users
   }
-  async findUser(id) {
+  async getUser(id) {
     const user = this.users.find(user => user.id === id)
     if (!user) {
       throw Boom.notFound('User not found');
