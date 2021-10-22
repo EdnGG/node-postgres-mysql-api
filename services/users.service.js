@@ -37,14 +37,6 @@ class UserServices {
     const client = await getConnection()
     const res = await client().query('SELECT * FROM tasks')
     return res.rows
-    // const user = this.users.find(user => user.id === id)
-    // if (!user) {
-    //   throw Boom.notFound('User not found');
-    // }
-    // if (user.isBlock) {
-    //   throw Boom.conflict('User is blocked');
-    // }
-    // return user
   }
   async updateUser(id, payload) {
     const index = this.users.findIndex(user => user.id === id)
