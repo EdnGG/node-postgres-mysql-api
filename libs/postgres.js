@@ -8,7 +8,7 @@ async function getConnection() {
     port: 5432,
     database: 'my_store'
   })
-  await client().connect()
+  await client.connect()
   return client
 }
 

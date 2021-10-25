@@ -7,7 +7,45 @@
   docker: docker-compose up
   docker: docker-compose down
   docker: docker-compose ps
+  docker-compose exec postgres bash <abrir un bash en terminal con postgres>
+  psql -h localhost -d my_store -U postgres <conectar a postgres>
+  \d+ muestra todas las tablas
+  \q salir de postgres
+  exit para salir del contenedor de docker
+  docker-compose up -d pgadmin <correr PGAdmin>
+  docker-compose ps <ver estado de los contenedores>
+  docker ps <ver estado de los contenedores 'container id'>
+  docker inspect <ide del contenedor> buscamos la IP del contenedor
+
+
+  172.19.0.3
+
 */
+
+/**
+ * ORM
+💡Un ORM es un modelo de programación que permite mapear las estructuras de una base de datos relacionales.
+
+.
+Al abstraer este tipo de programación, delegamos su implementación al backend, es decir, le añadimos una de responsabilidad a la capa transaccional del servidor:
+.
+✨Los beneficios son los siguientes:
+
+Acciones como CRUD (Create, Read, Update, Delete) son administradas mediante ORM.
+La implementación de seeds o semillas, nos permiten recuperar, mediante código, la estructura de una BD.
+.
+Una de las bases teóricas para entender este modelo es mediante el conocimiento de DAO (Data Access Object) y DTO (Data Transfer Object), los cuales nos permiten desestructurar un ORM en módulos de abstracción para acceder a la DB y transferir datos desde la misma DB, respectivamente hablando.
+.
+🙃Los contras sería:
+
+Delegación de responsabilidades al server
+Descentralización de trabajo, directa, de una BD.
+
+SEQUELIZE:
+npm i -S sequelize
+npm i -S pg-hstore
+ */
+
 require('dotenv').config()
 
 const express = require('express');

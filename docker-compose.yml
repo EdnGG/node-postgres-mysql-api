@@ -4,6 +4,7 @@ services:
   postgres:
     image: postgres:13
     # container_name: postgresql
+    # las variables de abajo son las que se usan en pgadmin
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -15,3 +16,12 @@ services:
     # restart: always
     # networks:
     #   - default
+  pgadmin:
+    image: dpage/pgadmin4
+    # container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=gresseden@mail.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - 5050:80
+

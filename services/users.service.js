@@ -1,7 +1,7 @@
 const faker = require('faker')
 const Boom = require('@hapi/boom')
 
-const getConnection = require('../libs/postgres.js')
+const getConnection = require('../libs/postgres')
 
 
 class UserServices {
@@ -31,12 +31,20 @@ class UserServices {
     return newUser
   }
   async getUsers() {
-    return this.users
+    // return this.users
+    const client = await getConnection()
+    const rta = await client.query('SELECT * FROM tasks')
+    return rta.rows
   }
   async getUser(id) {
-    const client = await getConnection()
-    const res = await client().query('SELECT * FROM tasks')
-    return res.rows
+    const user = this.users.find(user => user.id === id)
+    if (!user) {
+      throw Boom.notFound('User not found');
+    }
+    if (user.isBlock) {
+      throw Boom.conflict('User is blocked');
+    }
+    return user
   }
   async updateUser(id, payload) {
     const index = this.users.findIndex(user => user.id === id)
