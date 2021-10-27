@@ -1,7 +1,8 @@
 const faker = require('faker')
 const Boom = require('@hapi/boom')
 
-const getConnection = require('../libs/postgres')
+// const getConnection = require('../libs/postgres')
+const { models } = require('./../libs/sequelize')
 
 
 class UserServices {
@@ -23,49 +24,53 @@ class UserServices {
   }
 
   async createUser(data) {
-    const newUser = {
-      id: faker.datatype.uuid(),
-      ...data
-    }
-    this.users.push(newUser)
+    const newUser = await models.User.create(data)
     return newUser
   }
   async getUsers() {
-    // return this.users
-    const client = await getConnection()
-    const rta = await client.query('SELECT * FROM tasks')
-    return rta.rows
+    /* Harcodeado
+     return this.users
+    */
+   //using sequelize ORM
+    const rta = await models.User.findAll()
+    return rta
+    /* Using postgres
+      const client = await getConnection()
+      const rta = await client.query('SELECT * FROM tasks')
+      return rta.rows
+    */
   }
   async getUser(id) {
-    const user = this.users.find(user => user.id === id)
+    const user = await models.User.findByPk(id)
     if (!user) {
       throw Boom.notFound('User not found');
     }
-    if (user.isBlock) {
-      throw Boom.conflict('User is blocked');
-    }
+
+    // const user = this.users.find(user => user.id === id)
+    // if (!user) {
+    //   throw Boom.notFound('User not found');
+    // }
+    // if (user.isBlock) {
+    //   throw Boom.conflict('User is blocked');
+    // }
     return user
   }
   async updateUser(id, payload) {
-    const index = this.users.findIndex(user => user.id === id)
-    if (index === -1) {
-      throw Boom.notFound('User not found');
-    }
-    const user = this.users[index]
-    this.users[index] = {
-      ...user,
-      ...payload
-    }
-    return this.users[index]
-
+    const user = await this.getUser(id)
+    // if (!user) {
+    //   throw Boom.notFound('User not found');
+    // }
+    const rta = await user.update(payload)
+    return rta
   }
   async deleteUser(id) {
-    const index = this.users.findIndex(user => user.id === id)
-    if (index === -1) {
-      throw Boom.notFound('User not found');
-    }
-    this.users.splice(index, 1)
-    return { message: `User with ID:${id} has been deleted successfully` }
+    const user = await this.getUser(id)
+    // const user = await models.User.findByPk(id)
+    // if (!user) {
+    //   throw Boom.notFound('User not found');
+    // }
+    await user.destroy()
+    return { id }
   }
 
 }

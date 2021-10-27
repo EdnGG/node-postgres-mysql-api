@@ -3,6 +3,8 @@ const Boom = require('@hapi/boom')
 
 const pool = require('../libs/postgres.pool')
 const sequelize = require('../libs/sequelize')
+const { models } = require('./../libs/sequelize')
+
 
 
 class ProductsServices {
@@ -42,14 +44,23 @@ class ProductsServices {
   }
 
   async find() {
-    const query = `SELECT * FROM tasks`
-    // const rta = await this.pool.query(query)
-    // return rta.rows
-    const [data, metadata] = await this.sequelize.query(query)
-    return {
-      data,
-      metadata
-    }
+
+    //using sequelize ORM
+    const rta = await models.Task.findAll()
+    return rta
+    /* using a pool connection
+      const rta = await this.pool.query(query)
+      return rta.rows
+    */
+
+    /* Using sequelize with custom query
+      const query = `SELECT * FROM tasks`
+      const [data, metadata] = await this.sequelize.query(query)
+      return {
+        data,
+        metadata
+      }
+    */
   }
 
   async findOne(id) {
