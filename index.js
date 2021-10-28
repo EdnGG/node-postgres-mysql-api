@@ -24,7 +24,7 @@
 
 /**
  * ORM
-💡Un ORM es un modelo de programación que permite mapear las estructuras de una base de datos relacionales.
+Un ORM es un modelo de programación que permite mapear las estructuras de una base de datos relacionales.
 
 .
 Al abstraer este tipo de programación, delegamos su implementación al backend, es decir, le añadimos una de responsabilidad a la capa transaccional del servidor:
@@ -36,7 +36,7 @@ La implementación de seeds o semillas, nos permiten recuperar, mediante código
 .
 Una de las bases teóricas para entender este modelo es mediante el conocimiento de DAO (Data Access Object) y DTO (Data Transfer Object), los cuales nos permiten desestructurar un ORM en módulos de abstracción para acceder a la DB y transferir datos desde la misma DB, respectivamente hablando.
 .
-🙃Los contras sería:
+Los contras sería:
 
 Delegación de responsabilidades al server
 Descentralización de trabajo, directa, de una BD.
@@ -49,7 +49,7 @@ npm i -S pg-hstore
 require('dotenv').config()
 
 const express = require('express');
-const morgan = require('morgan')
+const morgan = require('morgan');
 const cors = require('cors')
 const routerApi = require('./routes');
 
