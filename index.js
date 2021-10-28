@@ -8,7 +8,7 @@
   docker: docker-compose down
   docker: docker-compose ps
   docker-compose exec postgres bash <abrir un bash en terminal con postgres>
-  psql -h localhost -d my_store -U postgres <conectar a postgres>
+   <conectar a postgres>
   \d+ muestra todas las tablas
   \q salir de postgres
   exit para salir del contenedor de docker
