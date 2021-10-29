@@ -1,4 +1,4 @@
-const { Model, DataTypes, Sequelize } = require('sequelize')
+const { Model, DataTypes } = require('sequelize')
 
 // Definir nobre de tabla
 const TASKS_TABLE = 'tasks'

@@ -16,7 +16,9 @@ const sequelize = new Sequelize(URI, {
   dialect: 'mysql',
   // dialect: 'postgres',
   logging: true,
+  // logging: false,
 })
+
 setupModels(sequelize)
 
 sequelize.sync()
