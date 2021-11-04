@@ -8,19 +8,20 @@ const setupModels = require('./../db/models');
 const USER = encodeURIComponent(config.dbUser)
 const PASSWORD = encodeURIComponent(config.dbPassword)
 
-// const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`
-const URI = `mysql://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`
+const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`
+// const URI = `mysql://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`
 
 
 const sequelize = new Sequelize(URI, {
-  dialect: 'mysql',
-  // dialect: 'postgres',
+  // dialect: 'mysql',
+  dialect: 'postgres',
   logging: true,
   // logging: false,
 })
 
 setupModels(sequelize)
 
-sequelize.sync()
+// sync() crea las tablas en la base de datos, no se usa en produccion
+// sequelize.sync()
 
 module.exports = sequelize;

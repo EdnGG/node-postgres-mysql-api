@@ -2,7 +2,7 @@ const faker = require('faker')
 const Boom = require('@hapi/boom')
 
 // const getConnection = require('../libs/postgres')
-// mysql crea por automatico un namespace llamado "models"
+// SEQUELIZE crea por automatico un namespace llamado "models"
 const { models } = require('./../libs/sequelize')
 
 

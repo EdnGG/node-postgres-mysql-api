@@ -9,13 +9,15 @@
   docker: docker-compose ps
   docker-compose exec postgres bash <abrir un bash en terminal con postgres>
    <conectar a postgres>
+  postgres desde terminal: psql -h localhost -d my_store -U postgres
+
   \d+ muestra todas las tablas
   \q salir de postgres
   exit para salir del contenedor de docker
   docker-compose up -d pgadmin <correr PGAdmin>
   docker-compose ps <ver estado de los contenedores>
   docker ps <ver estado de los contenedores 'container id'>
-  docker inspect <ide del contenedor> buscamos la IP del contenedor
+  docker inspect <id del contenedor> buscamos la IP del contenedor
 
 
   172.19.0.3
@@ -44,6 +46,8 @@ Descentralización de trabajo, directa, de una BD.
 SEQUELIZE:
 npm i -S sequelize
 npm i -S pg-hstore
+
+Para las migraciones en sequelize hay que instalar npm i sequelize -D
  */
 
 require('dotenv').config()
