@@ -16,6 +16,11 @@ const UserSchema = {
     type: DataTypes.STRING,
     unique: true,
   },
+  role: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    defaultValue: 'custumer'
+  },
   password: {
     allowNull: false,
     type: DataTypes.STRING
@@ -29,8 +34,13 @@ const UserSchema = {
 }
 
 class User extends Model {
-  static associate() {
+  static associate(models) {
     // associate
+    this.hasOne(models.Customer, {
+      as: 'customer',
+      foreignKey: 'user_id'
+    })
+
   }
 
   static config(sequelize) {
