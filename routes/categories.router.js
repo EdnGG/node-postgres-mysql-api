@@ -1,78 +1,73 @@
 const express = require('express');
-// const faker = require('faker')
+
+const CategoryService = require('./../services/category.service');
+const validatorHandler = require('./../middlewares/validator.handler');
+const { createCategorySchema, updateCategorySchema, getCategorySchema } = require('./../schemas/category.schema');
 
 const router = express.Router();
+const service = new CategoryService();
 
-router.get('/', async (req, res, next)=> {
+router.get('/', async (req, res, next) => {
   try {
-    return res.json({
-      categories: ['Hogar', 'Comida', 'Tecnologia']
-    })
-  } catch (err) {
-    next(err)
+    const categories = await service.find();
+    res.json(categories);
+  } catch (error) {
+    next(error);
   }
+});
 
-})
-
-router.post('/', async (req, res, next) => {
-
-  try {
-    const { id } = req.params
-    const body = req.body;
-    // const { name, price, image } = req.body;
-    return res.json({
-      message: 'Categoty created',
-      data: body,
-      id
-      // name,
-      // price,
-      // image
-    })
-  } catch (err) {
-    next(err)
+router.get('/:id',
+  validatorHandler(getCategorySchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const category = await service.findOne(id);
+      res.json(category);
+    } catch (error) {
+      next(error);
+    }
   }
+);
 
-})
-
-router.patch('/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params
-  // console.log(req.body)
-  const body  = await req.body;
-  // const { name, price, image } = req.body;
-  return res.json({
-    message: 'Category updated',
-    data: body,
-    id
-    // name,
-    // price,
-    // image
-  })
-  } catch (err) {
-    next(err)
+router.post('/',
+  validatorHandler(createCategorySchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newCategory = await service.create(body);
+      res.status(201).json(newCategory);
+    } catch (error) {
+      next(error);
+    }
   }
+);
 
-})
-
-router.delete('/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params
-  // console.log(req.body)
-  // const body  = req.body;
-  // const { name, price, image } = req.body;
-  return res.json({
-    message: 'Category deleted',
-    // data: body,
-    id
-    // name,
-    // price,
-    // image
-  })
-  } catch (err) {
-    next(err)
+router.patch('/:id',
+  validatorHandler(getCategorySchema, 'params'),
+  validatorHandler(updateCategorySchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const category = await service.update(id, body);
+      res.json(category);
+    } catch (error) {
+      next(error);
+    }
   }
-})
+);
 
-
+router.delete('/:id',
+  validatorHandler(getCategorySchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      await service.delete(id);
+      res.status(201).json({id});
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = router;
