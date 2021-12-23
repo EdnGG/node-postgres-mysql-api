@@ -31,23 +31,23 @@ class ProductsServices {
   }
 
   async create(data) {
-    const newProduct = {
-      id: faker.datatype.uuid(),
-      // name: data.name,
-      ...data
-      // price: data.price,
-      // image: data.image
-    }
-    this.products.push(newProduct)
+   const newProduct =  await models.Product.create(data)
     return newProduct
 
   }
 
   async find() {
 
-    //using sequelize ORM
+    // const query = `SELECT * FROM products`
+    const products = await models.Product.findAll({
+      include: ['category']
+    })
+    return products
+
+    /*using sequelize ORM
     const rta = await models.Task.findAll()
     return rta
+    */
     /* using a pool connection
       const rta = await this.pool.query(query)
       return rta.rows
