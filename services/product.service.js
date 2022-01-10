@@ -1,8 +1,9 @@
 const faker = require('faker')
 const Boom = require('@hapi/boom')
+const { Op } = require('sequelize')
 
-const pool = require('../libs/postgres.pool')
-const sequelize = require('../libs/sequelize')
+// const pool = require('../libs/postgres.pool')
+// const sequelize = require('../libs/sequelize')
 const { models } = require('./../libs/sequelize')
 
 
@@ -12,9 +13,9 @@ class ProductsServices {
   constructor() {
     this.products = []
     this.generate()
-    this.sequelize = sequelize
-    this.pool = pool
-    this.pool.on('error', (err) => console.error(err))
+    // this.sequelize = sequelize
+    // this.pool = pool
+    // this.pool.on('error', (err) => console.error(err))
   }
   async generate() {
     const limit = 100;
@@ -31,17 +32,37 @@ class ProductsServices {
   }
 
   async create(data) {
-   const newProduct =  await models.Product.create(data)
+    const newProduct = await models.Product.create(data)
     return newProduct
 
   }
 
-  async find() {
+  async find(query) {
 
-    // const query = `SELECT * FROM products`
-    const products = await models.Product.findAll({
-      include: ['category']
-    })
+    const options = {
+      include: ['category'],
+      where: {},
+    }
+    const { limit, offset } = query
+    if (limit && offset) {
+      options.limit = limit,
+        options.offset = offset
+    }
+
+    const { price } = query;
+    if (price) {
+      options.where.price = price;
+    }
+
+    const { price_min, price_max } = query;
+    if (price_min && price_max) {
+      options.where.price = {
+        [Op.gte]: price_min,
+        [Op.lte]: price_max,
+      };
+    }
+
+    const products = await models.Product.findAll(options)
     return products
 
     /*using sequelize ORM
@@ -65,10 +86,10 @@ class ProductsServices {
 
   async findOne(id) {
     const product = this.products.find(item => item.id === id);
-    if(!product){
+    if (!product) {
       throw Boom.notFound('Product not found');
     }
-    if(product.isBlock){
+    if (product.isBlock) {
       throw Boom.conflict('Product is blocked');
     }
     return product
@@ -76,7 +97,7 @@ class ProductsServices {
 
   async update(id, payload) {
     const index = this.products.findIndex(product => product.id === id)
-    if(index === -1){
+    if (index === -1) {
       throw Boom.notFound('Product not found');
     }
     const product = this.products[index]
@@ -88,12 +109,12 @@ class ProductsServices {
   }
   async delete(id) {
     const index = this.products.findIndex(product => product.id === id)
-    if(index === -1){
+    if (index === -1) {
       throw Boom.notFound('Product not found');
     }
     this.products.splice(index, 1)
-    return { message: `Product with ID:${id} has been deleted successfull`}
-   }
+    return { message: `Product with ID:${id} has been deleted successfull` }
+  }
 
 }
 
